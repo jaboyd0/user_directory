@@ -1,24 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import EmployeeList from "./components/EmployeeList";
+import SearchBar from './components/SearchBar';
 import './App.css';
 
 function App() {
+  const [query, setQuery] = useState("");
+
+  function handleSearch (event) {
+    event.preventDefault();
+    setQuery(event.target.value.trim());
+  }
+
+  function clearSearch (event) {
+    if (event.currentTarget.parentElement.search) {
+      event.currentTarget.parentElement.search.value = "";
+      setQuery("");
+    }
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <SearchBar
+      handleSearch={handleSearch}
+      clearSearch={clearSearch}
+      />
+      <EmployeeList query={query} />
     </div>
   );
 }
